@@ -26,7 +26,7 @@
 		<button id="reset" onclick="reset()">RESET</button>
 	</div>
 	<div id="history">
-		<div id="history-header">History</div>
+		<div id="history-header">History - <span id="current-time">-</span></div>
 		<div id="history-changes">-</div>
 	</div>
 </div>
@@ -59,6 +59,10 @@ function updateHistoryNode() {
 		historyNode.appendChild(entry);
 	})
 }
+function updateTime() {
+	const currentTimeNode = document.getElementById("current-time");
+	currentTimeNode.innerHTML = (new Date()).toISOString();
+}
 function update() {
 	updateCounter();
 	updateHistoryNode();
@@ -86,5 +90,6 @@ if (!localStorage.history) {
 }
 
 update();
+setInterval(updateTime, 1000);
 
 </script>

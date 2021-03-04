@@ -1,0 +1,89 @@
+<style>
+#main {
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	width: 600px;
+	border: 1px solid #000;
+}
+
+#counter {
+	font-size: 5em;
+}
+#botans {
+	display: flex;
+	flex-direction: row;
+}
+</style>
+
+<div id="main">
+	<div id="counter">0</div>
+	<div id="botans">
+		<button id="increment" onclick="increment()">HE COMES</button>
+		<button id="decrement" onclick="decrement()">HE GOES</button>
+		<button id="reset" onclick="reset()">RESET</button>
+	</div>
+	<div id="history">
+		<div id="history-header">History</div>
+		<div id="history-changes">-</div>
+	</div>
+</div>
+
+
+<script>
+function getHistory() {
+	return JSON.parse(localStorage.history);
+}
+function updateHistory(item) {
+	localStorage.setItem('history', JSON.stringify(item));
+}
+function pushHistory(item) {
+	const history = getHistory();
+	history.push(`${(new Date()).toISOString()} - ${item}`);
+	updateHistory(history);
+}
+function updateCounter() {
+	const counterNode = document.getElementById("counter");
+	counterNode.innerHTML = localStorage.counter;
+}
+function updateHistoryNode() {
+	const historyNode = document.getElementById("history-changes")
+	historyNode.innerHTML = "";
+	console.log(historyNode);
+	const history = getHistory();
+	history.reverse().forEach((e) => {
+		const entry = document.createElement("div");
+		entry.innerHTML = e;
+		historyNode.appendChild(entry);
+	})
+}
+function update() {
+	updateCounter();
+	updateHistoryNode();
+}
+function increment() {
+	pushHistory("INCREMENT");
+	+localStorage.counter++
+	update();
+}
+function decrement() {
+	pushHistory("DECREMENT");
+	+localStorage.counter--
+	update();
+}
+function reset() {
+	pushHistory("RESET");
+	update();
+}
+
+if (!localStorage.history) {
+	updateHistory([]);
+	localStorage.counter = 0;
+	console.log('history updated to []');
+}
+
+updateHistoryNode();
+
+</script>

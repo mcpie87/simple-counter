@@ -75,6 +75,7 @@ function decrement() {
 }
 function reset() {
 	pushHistory("RESET");
+	localStorage.counter = 0;
 	update();
 }
 
@@ -84,6 +85,6 @@ if (!localStorage.history) {
 	console.log('history updated to []');
 }
 
-updateHistoryNode();
+update();
 
 </script>
